@@ -79,7 +79,7 @@ Heatmaps are in gradcam.png; I have not analyzed them systematically. Grad-CAM f
 
 
 
-`python app.py` starts a Gradio app (top-3 breeds for an uploaded photo). The model has no "not a pet" option, so any image gets one of the 37 breeds. In informal testing the top-1 prediction was sometimes wrong, including on a photo I uploaded myself; I did not measure this systematically.
+`python app.py` starts a Gradio app (top-3 breeds for an uploaded photo). The model has no "not a pet" option, so any image gets one of the 37 breeds. In one informal test with a photo I uploaded myself, the top-1 prediction was wrong. I did not test the demo systematically.
 
 
 
@@ -120,6 +120,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
