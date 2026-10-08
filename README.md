@@ -24,6 +24,8 @@ Classifying 37 cat and dog breeds from the Oxford-IIIT Pet dataset, comparing a 
 
 ## Data and splits
 
+![Sample images from the dataset](samples.png)
+
 
 
 - Train: 2,944 images. Validation: 736 images (stratified 80/20 split of the official trainval set, seed 42). Test: 3,669 images (official test split), evaluated once at the end.
@@ -53,6 +55,8 @@ Validation accuracy for reference: small CNN 22.7%, frozen 86.7%, fine-tuned 87.
 
 ## Error analysis (fine-tuned model, test set)
 
+![Confusion matrix of the fine-tuned model on the test set](confusion_matrix.png)
+
 
 
 - Hardest breeds: American Pit Bull Terrier 47.0%, Staffordshire Bull Terrier 49.4%, Miniature Pinscher 72.0%, Maine Coon 73.0%, Beagle 75.0%.
@@ -68,6 +72,8 @@ Validation accuracy for reference: small CNN 22.7%, frozen 86.7%, fine-tuned 87.
 
 
 ## Grad-CAM
+
+![Grad-CAM heatmaps for sample images](gradcam.png)
 
 
 
@@ -120,6 +126,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
