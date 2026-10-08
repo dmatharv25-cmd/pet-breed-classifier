@@ -103,7 +103,8 @@ Heatmaps are in gradcam.png; I have not analyzed them systematically. Grad-CAM f
 
 4. `python -m src.small_cnn`, `python -m src.resnet_frozen`, `python -m src.resnet_finetune`
 
-5. `python -m src.final_eval`, `python -m src.analyze`, `python -m src.gradcam`, `python -m src.seed_eval`, `python -m src.frozen_seeds`
+5. `python -m src.final_eval`, `python -m src.analyze`, `python -m src.gradcam`
+6. For the seed runs, first train the extra fine-tuning seeds: `python -m src.resnet_finetune --seed 1` and `python -m src.resnet_finetune --seed 2` (about 16 minutes each on CPU), then `python -m src.seed_eval` and `python -m src.frozen_seeds`
 
 6. `python app.py`
 
@@ -128,6 +129,8 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
+
 
 
 
