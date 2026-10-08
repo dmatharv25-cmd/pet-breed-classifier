@@ -12,9 +12,9 @@ Classifying 37 cat and dog breeds from the Oxford-IIIT Pet dataset, comparing a 
 
 - **Problem:** 37-class breed classification. About 100 images per breed, so classes are nearly balanced and accuracy is a fair metric.
 
-- **Main result:** Pretrained ResNet18 reached about 81 to 84% test accuracy (frozen 84.1%, fine-tuned mean 81.6% over 3 seeds). The small CNN trained from scratch reached 19.1%. Pretraining is by far the largest effect.
+- **Main result:** Pretrained ResNet18 reached about 81 to 84% test accuracy (frozen mean 84.2%, fine-tuned mean 81.6%, 3 seeds each). The small CNN trained from scratch reached 19.1%. Pretraining is by far the largest effect.
 
-- **Fine-tuning did not beat the frozen backbone.** Over 3 fine-tuning seeds, test accuracy was 80.7 to 82.9% (mean 81.6%), and all three runs were below the frozen backbone at 84.1% (one run). The seed 42 run in the table is the best of the three.
+- **Fine-tuning did not beat the frozen backbone.** Over 3 fine-tuning seeds, test accuracy was 80.7 to 82.9% (mean 81.6%), and all three runs were below all three frozen-backbone seeds (83.9 to 84.6%, mean 84.2%). The seed 42 run in the table is the best of the three.
 
 - **Main limit:** look-alike breeds. American Pit Bull Terrier (47.0%) and Staffordshire Bull Terrier (49.4%) are far below the overall accuracy.
 
@@ -40,14 +40,14 @@ Classifying 37 cat and dog breeds from the Oxford-IIIT Pet dataset, comparing a 
 | Model | Test accuracy | 95% bootstrap interval |
 |---|---|---|
 | Small CNN, from scratch (12 epochs) | 19.1% | 17.8 to 20.4 |
-| ResNet18, frozen backbone | 84.1% | 82.9 to 85.2 |
+| ResNet18, frozen backbone (original run) | 84.1% | 82.9 to 85.2 |
 | ResNet18, fine-tuned (5 epochs, seed 42, best of 3 seeds) | 82.9% | 81.6 to 84.1 |
 
 
 
 Fine-tuned minus frozen: -1.2 points, 95% paired bootstrap interval -2.4 to -0.0.
 
-Fine-tuning repeated with 3 seeds (42, 1, 2): test accuracy 82.9%, 80.7%, 81.2%, mean 81.6%, standard deviation about 1.15 points. The bootstrap intervals above measure test-set sampling noise only, not seed-to-seed variation. The frozen backbone and the small CNN have one seed each.
+Fine-tuning repeated with 3 seeds (42, 1, 2): test accuracy 82.9%, 80.7%, 81.2%, mean 81.6%, standard deviation about 1.15 points. The bootstrap intervals above measure test-set sampling noise only, not seed-to-seed variation. The frozen backbone was repeated with 3 seeds (42, 1, 2) on cached features: test accuracy 84.6%, 84.2%, 83.9%, mean 84.2%, standard deviation about 0.34 points. The table row shows the original frozen run (84.1%), whose random state differs from the seeded reruns; I did not trace the 0.5-point difference from the seed 42 rerun. The worst frozen seed beat the best fine-tuned seed, but 3 runs each is a small sample. The small CNN has one seed.
 
 
 
@@ -117,7 +117,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 
 
 
-- Only the fine-tuned model was run with 3 seeds. The frozen model and small CNN have one seed each, so their run-to-run variance is unknown. Differences of a point or two should not be trusted.
+- The fine-tuned and frozen models were run with 3 seeds each, which is still few. The small CNN has one seed, so its run-to-run variance is unknown. Differences of a point or two should not be trusted.
 
 - The small CNN was still improving at epoch 12, so 19.1% understates what it could reach with more training.
 
@@ -128,6 +128,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
