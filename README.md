@@ -45,7 +45,7 @@ Classifying 37 cat and dog breeds from the Oxford-IIIT Pet dataset, comparing a 
 
 
 
-Fine-tuned minus frozen: -1.2 points, 95% paired bootstrap interval -2.4 to -0.0.
+Seed 42 fine-tuned minus the original frozen run: -1.2 points, 95% paired bootstrap interval -2.4 to -0.0. Across 3 seeds each, the gap in means is about 2.6 points (84.2% vs 81.6%).
 
 Fine-tuning repeated with 3 seeds (42, 1, 2): test accuracy 82.9%, 80.7%, 81.2%, mean 81.6%, standard deviation about 1.15 points. The bootstrap intervals above measure test-set sampling noise only, not seed-to-seed variation. The frozen backbone was repeated with 3 seeds (42, 1, 2) on cached features: test accuracy 84.6%, 84.2%, 83.9%, mean 84.2%, standard deviation about 0.34 points. The table row shows the original frozen run (84.1%), whose random state differs from the seeded reruns; I did not trace the 0.5-point difference from the seed 42 rerun. The worst frozen seed beat the best fine-tuned seed, but 3 runs each is a small sample. The small CNN has one seed.
 
@@ -128,6 +128,8 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
+
 
 
 
