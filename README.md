@@ -81,7 +81,9 @@ Validation accuracy for reference: small CNN 22.7%, frozen 86.7%, fine-tuned 87.
 
 
 
-Heatmaps are in gradcam.png; I have not analyzed them systematically. Grad-CAM from ResNet18's last layer on 160x160 input gives a coarse 5x5 map, and 8 random images are too few to draw conclusions.
+![Grad-CAM for the most common confusions](gradcam_pairs.png)
+
+Second figure (gradcam_pairs.png, made by src/gradcam_pairs.py): for 4 common confusions, the first 2 test mistakes by index, with the heat shown for the predicted class. Observation from these 8 images: the hot area sits mainly on the animal, not the background (the face for Ragdoll -> Birman, head and torso for the Pit Bull and Beagle cases, the striped body for Egyptian Mau -> Bengal), with some spill onto the surroundings in two images. The model was fairly confident in the wrong class (p = 0.52 to 0.97). This suggests these mistakes are not simple background shortcuts, but 8 images cannot show why the model chose the wrong breed, and I did not compute heat for the true class. The first figure (gradcam.png) was not analyzed systematically. Grad-CAM from ResNet18's last layer on 160x160 input gives a coarse 5x5 map, and 8 random images are too few to draw conclusions.
 
 
 
@@ -131,6 +133,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
