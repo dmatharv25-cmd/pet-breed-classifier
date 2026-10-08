@@ -49,6 +49,8 @@ Seed 42 fine-tuned minus the original frozen run: -1.2 points, 95% paired bootst
 
 Fine-tuning repeated with 3 seeds (42, 1, 2): test accuracy 82.9%, 80.7%, 81.2%, mean 81.6%, standard deviation about 1.15 points. The bootstrap intervals above measure test-set sampling noise only, not seed-to-seed variation. The frozen backbone was repeated with 3 seeds (42, 1, 2) on cached features: test accuracy 84.6%, 84.2%, 83.9%, mean 84.2%, standard deviation about 0.34 points. The table row shows the original frozen run (84.1%), whose random state differs from the seeded reruns; I did not trace the 0.5-point difference from the seed 42 rerun. The worst frozen seed beat the best fine-tuned seed, but 3 runs each is a small sample. The small CNN has one seed.
 
+Second fine-tuning setting (backbone learning rate 1e-5 instead of 1e-4, head 1e-3, 5 epochs, seeds 42, 1, 2): test accuracy 82.5%, 82.6%, 83.5%, mean 82.9%, standard deviation about 0.56 points. That is about 1.3 points above the 1e-4 runs, but still below the frozen backbone (best 1e-5 run 83.5% vs worst frozen run 83.9%). Validation accuracy at 1e-5 (about 85.3%) was lower than at 1e-4 for seed 42 (87.6%), so validation and test disagreed on direction. This is a second look at the test set: I chose 1e-5 after seeing that 1e-4 fine-tuning lost to the frozen backbone on test, so treat it as exploratory. Training loss was still about 0.27 after 5 epochs, so more epochs might help; I did not test that.
+
 
 
 Validation accuracy for reference: small CNN 22.7%, frozen 86.7%, fine-tuned 87.6%. Each is the best epoch chosen on validation, so it is slightly optimistic. On validation fine-tuning looked ahead; on test it did not.
@@ -104,7 +106,7 @@ Heatmaps are in gradcam.png; I have not analyzed them systematically. Grad-CAM f
 4. `python -m src.small_cnn`, `python -m src.resnet_frozen`, `python -m src.resnet_finetune`
 
 5. `python -m src.final_eval`, `python -m src.analyze`, `python -m src.gradcam`
-6. For the seed runs, first train the extra fine-tuning seeds: `python -m src.resnet_finetune --seed 1` and `python -m src.resnet_finetune --seed 2` (about 16 minutes each on CPU), then `python -m src.seed_eval` and `python -m src.frozen_seeds`
+6. For the seed runs, first train the extra fine-tuning seeds: `python -m src.resnet_finetune --seed 1` and `python -m src.resnet_finetune --seed 2` (about 16 minutes each on CPU), then `python -m src.seed_eval` and `python -m src.frozen_seeds`. For the 1e-5 runs: `python -m src.resnet_finetune --lr 1e-5 --tag lr1e-5 --seed 42` (also `--seed 1` and `--seed 2`), then `python -m src.lowlr_eval`.
 
 6. `python app.py`
 
@@ -122,13 +124,14 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 
 - The small CNN was still improving at epoch 12, so 19.1% understates what it could reach with more training.
 
-- No tuning of learning rates, schedules, image size or augmentation for fine-tuning. The frozen model's features were extracted without augmentation.
+- Only two fine-tuning learning rates were tried (1e-4 and 1e-5, 5 epochs each). No schedules, longer training, image size or augmentation tuning. The frozen model's features were extracted without augmentation.
 
-- Why fine-tuning did not help (overfitting, learning rate, or noise) is untested.
+- Why fine-tuning did not beat the frozen backbone is untested. The lower learning rate narrowed the gap but did not close it; whether more epochs at 1e-5 would is unknown.
 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 

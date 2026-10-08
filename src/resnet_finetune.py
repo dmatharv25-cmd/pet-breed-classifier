@@ -24,9 +24,13 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument("--lr", type=float, default=1e-4, help="backbone learning rate")
+    parser.add_argument("--tag", type=str, default="", help="output file tag, e.g. lr1e-5")
     args = parser.parse_args()
     torch.manual_seed(args.seed)
     suffix = "" if args.seed == DEFAULT_SEED else f"_seed{args.seed}"
+    if args.tag:
+        suffix = f"_{args.tag}{suffix}"
     train_loader, val_loader, _, classes = get_loaders()
 
     model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
@@ -37,7 +41,7 @@ if __name__ == "__main__":
     backbone_params = [p for p in model.parameters() if id(p) not in head_ids]
 
     opt = torch.optim.Adam([
-        {"params": backbone_params, "lr": 1e-4},
+        {"params": backbone_params, "lr": args.lr},
         {"params": head_params, "lr": 1e-3},
     ])
     loss_fn = nn.CrossEntropyLoss()
@@ -65,3 +69,4 @@ if __name__ == "__main__":
     with open(f"resnet18_finetune_history{suffix}.json", "w") as f:
         json.dump(history, f)
     print("best val acc:", round(best_val, 3))
+
