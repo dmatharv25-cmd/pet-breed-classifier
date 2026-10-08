@@ -12,7 +12,7 @@ Classifying 37 cat and dog breeds from the Oxford-IIIT Pet dataset, comparing a 
 
 - **Problem:** 37-class breed classification. About 100 images per breed, so classes are nearly balanced and accuracy is a fair metric.
 
-- **Main result:** Pretrained ResNet18 reached about 81 to 84% test accuracy (frozen mean 84.2%, fine-tuned mean 81.6%, 3 seeds each). The small CNN trained from scratch reached 19.1%. Pretraining is by far the largest effect.
+- **Main result:** Pretrained ResNet18 reached about 81 to 84% test accuracy (frozen mean 84.2%; fine-tuned mean 81.6% at backbone lr 1e-4 and 82.9% at 1e-5; 3 seeds each). The small CNN trained from scratch reached 19.1%. Pretraining is by far the largest effect.
 
 - **Fine-tuning did not beat the frozen backbone.** Over 3 fine-tuning seeds, test accuracy was 80.7 to 82.9% (mean 81.6%), and all three runs were below all three frozen-backbone seeds (83.9 to 84.6%, mean 84.2%). The seed 42 run in the table is the best of the three.
 
@@ -131,6 +131,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
