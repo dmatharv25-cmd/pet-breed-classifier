@@ -1,13 +1,13 @@
-import time
+﻿import time
 import json
 import torch
 import torch.nn as nn
 from torchvision import models
 from src.loaders import get_loaders
 
-SEED = 42
+DEFAULT_SEED = 42
 EPOCHS = 5
-torch.manual_seed(SEED)
+
 
 
 def evaluate(model, loader):
@@ -21,6 +21,12 @@ def evaluate(model, loader):
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    args = parser.parse_args()
+    torch.manual_seed(args.seed)
+    suffix = "" if args.seed == DEFAULT_SEED else f"_seed{args.seed}"
     train_loader, val_loader, _, classes = get_loaders()
 
     model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
@@ -52,10 +58,10 @@ if __name__ == "__main__":
         val_acc = evaluate(model, val_loader)
         if val_acc > best_val:
             best_val = val_acc
-            torch.save(model.state_dict(), "resnet18_finetuned.pt")
+            torch.save(model.state_dict(), f"resnet18_finetuned{suffix}.pt")
         history.append({"epoch": epoch, "train_loss": train_loss, "val_acc": val_acc})
         print(f"epoch {epoch} | train loss {train_loss:.3f} | val acc {val_acc:.3f} | {time.time() - start:.0f}s")
 
-    with open("resnet18_finetune_history.json", "w") as f:
+    with open(f"resnet18_finetune_history{suffix}.json", "w") as f:
         json.dump(history, f)
     print("best val acc:", round(best_val, 3))
