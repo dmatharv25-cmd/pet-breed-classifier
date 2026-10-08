@@ -103,7 +103,7 @@ Heatmaps are in gradcam.png; I have not analyzed them systematically. Grad-CAM f
 
 4. `python -m src.small_cnn`, `python -m src.resnet_frozen`, `python -m src.resnet_finetune`
 
-5. `python -m src.final_eval`, `python -m src.analyze`, `python -m src.gradcam`
+5. `python -m src.final_eval`, `python -m src.analyze`, `python -m src.gradcam`, `python -m src.seed_eval`, `python -m src.frozen_seeds`
 
 6. `python app.py`
 
@@ -128,6 +128,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
 - Behavior on non-pet or out-of-distribution images was not measured.
+
 
 
 
