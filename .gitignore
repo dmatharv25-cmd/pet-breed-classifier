@@ -4,3 +4,7 @@ __pycache__/
 *.pt
 *.pth
 *.npy
+space_v2/
+indian_splits.json
+new_breeds/
+space/
