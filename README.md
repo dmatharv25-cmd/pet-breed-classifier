@@ -134,7 +134,7 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 
 - Larger models, higher resolution, and class-confusion fixes were not tried.
 
-- Behavior on non-pet or out-of-distribution images was not measured.
+- Behavior on non-pet images was only checked roughly (see Non-pet check). Other out-of-distribution inputs, such as rooms, food or people, were not measured.
 
 
 
@@ -170,4 +170,10 @@ Next steps: collect 40 or more clean, correctly labeled photos per breed (Indian
 
 `python src/calibration.py` checks how well the frozen model's confidence matches its accuracy on the 3,669 test images (cached features, original 37-class head). Expected calibration error with 10 bins is 0.026, and mean confidence (81.8%) is close to accuracy (84.1%), so the model is well calibrated on pet photos. The demo shows a low-confidence note when the top score is below 0.5. At that cutoff, 89.2% of test images get no warning and 89.4% of those are correct. The 10.8% that are warned are only 40.0% correct, and the warning catches 40.5% of all wrong predictions. A cutoff of 0.7 would catch 76.9% of errors but warn on 26% of images. I did not tune the threshold; 0.5 was set before this check.
 
-Limit: this covers pet photos only. How often non-pet images score above the threshold was not measured, so a confident answer on a non-pet image is still possible.
+Limit: this covers pet photos only. See the next section for a rough check on non-pet images.
+
+## Non-pet check
+
+`python -m src.non_pet_check` runs the frozen model on 259 non-pet images from my own PC: Windows wallpapers, lock-screen images and screenshots (not included in the repo). On the first run, the five most confident images turned out to show pets, so I removed them by hand; the numbers below are after that cleanup. At the demo's 0.5 threshold, 258 of 259 images (99.6%) get the low-confidence note. One image (a Bengal guess at 51%) does not, and none scores 0.6 or higher. Predictions were spread across breeds, mostly Beagle, Newfoundland and Bengal.
+
+Limit: this is a rough check on a narrow sample. It has no phone photos of rooms, food, people or everyday objects, it comes from one machine, and I cleaned it by hand after seeing results. It is not a measure of how often the model is confidently wrong on non-pet images in general.
