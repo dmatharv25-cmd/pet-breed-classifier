@@ -93,7 +93,7 @@ Live demo: https://pet-breed-demo.onrender.com (free hosting, so the first load 
 
 
 
-`python app.py` starts a Gradio app (top-3 breeds for an uploaded photo). The model has no "not a pet" option, so any image gets one of the 37 breeds. In one informal test with a photo I uploaded myself, the top-1 prediction was wrong. I did not test the demo systematically.
+`python app.py` starts a Gradio app (top-3 breeds for an uploaded photo, a list of the 37 supported breeds, and a "Low confidence" note when the top score is below 0.5; see the calibration and non-pet sections below). The model has no "not a pet" option, so any image gets one of the 37 breeds. In one informal test with a photo I uploaded myself, the top-1 prediction was wrong. I did not test the demo systematically.
 
 
 
@@ -168,7 +168,7 @@ Next steps: collect 40 or more clean, correctly labeled photos per breed (Indian
 
 ## Confidence calibration
 
-`python src/calibration.py` checks how well the frozen model's confidence matches its accuracy on the 3,669 test images (cached features, original 37-class head). Expected calibration error with 10 bins is 0.026, and mean confidence (81.8%) is close to accuracy (84.1%), so the model is well calibrated on pet photos. The demo shows a low-confidence note when the top score is below 0.5. At that cutoff, 89.2% of test images get no warning and 89.4% of those are correct. The 10.8% that are warned are only 40.0% correct, and the warning catches 40.5% of all wrong predictions. A cutoff of 0.7 would catch 76.9% of errors but warn on 26% of images. I did not tune the threshold; 0.5 was set before this check.
+`python src/calibration.py` checks how well the frozen model's confidence matches its accuracy on the 3,669 test images (cached features, original 37-class head). Expected calibration error with 10 bins is 0.026, and mean confidence (81.8%) is close to accuracy (84.1%), so the model is well calibrated on pet photos. The demo shows a low-confidence note when the top score is below 0.5. At that cutoff, 89.2% of test images get no warning and 89.4% of those are correct. The 10.8% that are warned are only 40.0% correct, and the warning catches 40.5% of all wrong predictions. A cutoff of 0.7 would catch 76.9% of errors but warn on 26% of images. I did not change the threshold based on these numbers.
 
 Limit: this covers pet photos only. See the next section for a rough check on non-pet images.
 
