@@ -165,3 +165,9 @@ Model files (.pt) and the dataset are not in Git. Training on a CPU takes about 
 An experiment extended the model with Indian breeds (`src/add_indian_breeds.py`). Only Indian Spitz had enough photos to try, using 22 images from Wikimedia Commons split 12 train / 5 validation / 5 test. The 38-class model scored 0.842 on the Oxford test set, with 0 of 3669 Oxford images wrongly sent to Indian Spitz, so the original breeds were not harmed. Indian Spitz itself reached only 0.400 on 5 test photos, which is too few to be reliable. Several downloaded photos were unclear or mislabeled and had to be removed.
 
 Next steps: collect 40 or more clean, correctly labeled photos per breed (Indian Spitz, Chippiparai, Kombai, Mudhol Hound, Rajapalayam), ideally from varied dogs and poses, then rerun the script. The live demo still uses the original 37-breed model.
+
+## Confidence calibration
+
+`python src/calibration.py` checks how well the frozen model's confidence matches its accuracy on the 3,669 test images (cached features, original 37-class head). Expected calibration error with 10 bins is 0.026, and mean confidence (81.8%) is close to accuracy (84.1%), so the model is well calibrated on pet photos. The demo shows a low-confidence note when the top score is below 0.5. At that cutoff, 89.2% of test images get no warning and 89.4% of those are correct. The 10.8% that are warned are only 40.0% correct, and the warning catches 40.5% of all wrong predictions. A cutoff of 0.7 would catch 76.9% of errors but warn on 26% of images. I did not tune the threshold; 0.5 was set before this check.
+
+Limit: this covers pet photos only. How often non-pet images score above the threshold was not measured, so a confident answer on a non-pet image is still possible.
