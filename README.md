@@ -174,6 +174,6 @@ Limit: this covers pet photos only. See the next section for a rough check on no
 
 ## Non-pet check
 
-`python -m src.non_pet_check` runs the frozen model on 259 non-pet images from my own PC: Windows wallpapers, lock-screen images and screenshots (not included in the repo). On the first run, the five most confident images turned out to show pets, so I removed them by hand; the numbers below are after that cleanup. At the demo's 0.5 threshold, 258 of 259 images (99.6%) get the low-confidence note. One image (a Bengal guess at 51%) does not, and none scores 0.6 or higher. Predictions were spread across breeds, mostly Beagle, Newfoundland and Bengal.
+`python -m src.non_pet_check` runs the frozen model on 258 non-pet images from my own PC: Windows wallpapers, lock-screen images and screenshots (not included in the repo). On the first run, the five most confident images turned out to show pets, and after a second run I found and removed one more, so six images were removed by hand; the numbers below are after that cleanup. At the demo's 0.5 threshold, 257 of 258 images (99.6%) get the low-confidence note. One image (a Bengal guess at 51%) does not, and none scores 0.6 or higher. Predictions were spread across breeds, mostly Beagle, Newfoundland and Bengal.
 
 Limit: this is a rough check on a narrow sample. It has no phone photos of rooms, food, people or everyday objects, it comes from one machine, and I cleaned it by hand after seeing results. It is not a measure of how often the model is confidently wrong on non-pet images in general.
