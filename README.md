@@ -1,4 +1,4 @@
-﻿# Pet Breed Classifier: Transfer Learning vs Training from Scratch
+# Pet Breed Classifier: Transfer Learning vs Training from Scratch
 
 
 
@@ -88,6 +88,8 @@ Second figure (gradcam_pairs.png, made by src/gradcam_pairs.py): for 4 common co
 
 
 ## Demo
+
+Live demo: https://pet-breed-demo.onrender.com (free hosting, so the first load can take up to a minute).
 
 
 
